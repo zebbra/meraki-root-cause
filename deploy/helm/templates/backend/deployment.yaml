@@ -33,6 +33,9 @@ spec:
           env:
             - name: PORT
               value: '3000'
+          envFrom:
+            - secretRef:
+                name: "{{ template "meraki-root-cause.fullname" . }}"
           args: ['backend', 'start']
           ports:
             - name: http
