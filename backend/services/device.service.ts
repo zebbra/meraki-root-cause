@@ -37,7 +37,7 @@ export default class DevicesService extends Moleculer.Service {
   async statuses(
     ctx: Context<MerakiRootCause.IOrganizationId>,
   ): Promise<MerakiRootCause.IInventory[]> {
-    return this._get(ctx, `organizations/${ctx.params.orgId}/deviceStatuses`);
+    return this._get(ctx, `organizations/${ctx.params.orgId}/devices/statuses`);
   }
 
   @Action({

@@ -48,7 +48,10 @@ export default class OrganizationsService extends Moleculer.Service {
   async license(
     ctx: Context<MerakiRootCause.IOrganizationId>,
   ): Promise<MerakiRootCause.ILicense> {
-    return this._get(ctx, `organizations/${ctx.params.orgId}/licenseState`);
+    return this._get(
+      ctx,
+      `organizations/${ctx.params.orgId}/licenses/overview`,
+    );
   }
 
   @Action({
@@ -59,9 +62,7 @@ export default class OrganizationsService extends Moleculer.Service {
       "organizations.list",
     );
 
-    const promises = filter(organizations, {
-      id: "682858293500054824",
-    }).map(async (org) => {
+    const promises = organizations.map(async (org) => {
       const [networks, license, devicesSummary] = await Promise.all<
         MerakiRootCause.INetwork[],
         MerakiRootCause.ILicense,
@@ -96,6 +97,8 @@ export default class OrganizationsService extends Moleculer.Service {
           ms: 0,
           mr: 0,
           mv: 0,
+          mc: 0,
+          sm: 0,
         },
       };
 
