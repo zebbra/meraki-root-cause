@@ -34,8 +34,14 @@ export default class AlertsService extends Moleculer.Service {
       });
     });
 
+    const params = {
+      roomId:
+        "Y2lzY29zcGFyazovL3VzL1JPT00vMjMwY2E0MDAtOGE0Yy0xMWVhLWI0ZDgtNDM3YjFiMTdiN2Ew",
+      text: data,
+    };
+
     try {
-      Axios.post("https://api.ciscospark.com/v1/messages", data, {
+      await Axios.post("https://api.ciscospark.com/v1/messages", params, {
         headers: {
           Authorization:
             "Bearer YWY0YWEwZjktMmM0Yy00YWEwLWIxZTgtODg3ZDdjODY5MmYwNWYxODI4YjEtMDM3_PF84_8fc1ba79-8a32-4a6e-91db-a2b1a3b255ed",
