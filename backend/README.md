@@ -42,3 +42,8 @@ yarn test
 
 1. `yarn build`
 1. `yarn start`
+
+## Environment Variables
+
+- `MERAKI_API_KEY` Secret meraki key to access meraki rest api
+- `Port` on which port to start backend

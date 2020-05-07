@@ -34,3 +34,8 @@ $ yarn generate
 1. `yarn start`
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Environment Variables
+
+- `API_URL` Backend api url
+- `Port` on which port to start frontend
