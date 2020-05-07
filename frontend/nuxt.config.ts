@@ -44,6 +44,8 @@ export default {
     "@nuxtjs/vuetify",
     // Doc: https://github.com/nuxt-community/composition-api
     "nuxt-composition-api",
+    // Doc: https://github.com/nuxt-community/eslint-module
+    "@nuxtjs/eslint-module",
   ],
   /*
    ** Nuxt.js modules
@@ -51,8 +53,6 @@ export default {
   modules: [
     // Doc: https://www.npmjs.com/package/nuxt-lazy-load/v/latest
     "nuxt-lazy-load",
-    // Doc: https://github.com/nuxt-community/eslint-module
-    "@nuxtjs/eslint-module",
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     // Doc: https://github.com/nuxt-community/dotenv-module
