@@ -31,7 +31,21 @@ trigger:
   branch: ["master", "deployment"]
 
 steps:
-  - name: docker
+  - name: builder
+    image: plugins/docker
+    settings:
+      target: builder
+      username: { from_secret: quay_username }
+      password: { from_secret: quay_password }
+      registry: quay.io
+      repo: quay.io/zebbra/meraki-root-cause
+      tags: builder
+      cache_from:
+        - quay.io/zebbra/meraki-root-cause:builder
+      custom_labels: [quay.expires-after=30d]
+      mtu: 1316
+
+  - name: release
     image: plugins/docker
     settings:
       username: { from_secret: quay_username }
@@ -39,6 +53,9 @@ steps:
       registry: quay.io
       repo: quay.io/zebbra/meraki-root-cause
       tags: "latest,git-${DRONE_COMMIT_SHA:0:7}"
+      cache_from:
+        - quay.io/zebbra/meraki-root-cause:builder
+        - quay.io/zebbra/meraki-root-cause:latest
       mtu: 1316
 ---
 kind: pipeline
