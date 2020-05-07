@@ -1,0 +1,73 @@
+{
+  "name": "meraki-root-cause-backend",
+  "version": "1.0.0",
+  "description": "Meraki root cause detection moleculer backend",
+  "license": "MIT",
+  "scripts": {
+    "build": "ttsc",
+    "deps": "yarn upgrade-interactive --latest",
+    "dev": "ts-node --compiler ttypescript ./node_modules/moleculer/bin/moleculer-runner.js --hot --repl --config moleculer.config.ts services/**/*.service.ts",
+    "cli": "moleculer connect ",
+    "start": "moleculer-runner --config --env ./dist/services",
+    "ci": "jest --watch",
+    "test": "jest --coverage",
+    "lint": "tslint -p tsconfig.json"
+  },
+  "keywords": [
+    "microservices",
+    "moleculer",
+    "meraki",
+    "root-cause",
+    "cdp"
+  ],
+  "author": "Michael Baertschi",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.24",
+    "@types/jest": "^25.2.1",
+    "@types/lodash": "^4.14.150",
+    "@types/node": "^13.13.5",
+    "jest": "^26.0.1",
+    "jest-cli": "^26.0.1",
+    "moleculer-decorators": "^1.2.0",
+    "moleculer-repl": "^0.6.4",
+    "ts-jest": "^25.4.0",
+    "ts-node": "^8.10.1",
+    "ts-transformer-json-schema": "^0.6.12",
+    "tslint": "^6.1.2",
+    "ttypescript": "^1.5.7",
+    "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bottleneck": "^2.19.5",
+    "dotenv": "^8.2.0",
+    "json-bigint": "^0.3.0",
+    "lodash": "^4.17.15",
+    "moleculer": "^0.14.6",
+    "moleculer-web": "^0.9.1"
+  },
+  "engines": {
+    "node": ">= 12.x.x"
+  },
+  "jest": {
+    "coverageDirectory": "<rootDir>/coverage",
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "testMatch": [
+      "**/*.spec.(ts|js)"
+    ],
+    "globals": {
+      "ts-jest": {
+        "compiler": "ttypescript",
+        "tsConfig": "tsconfig.json"
+      }
+    }
+  }
+}

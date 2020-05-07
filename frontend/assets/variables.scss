@@ -1,0 +1,31 @@
+// Ref: https://github.com/nuxt-community/vuetify-module#customvariables
+//
+// The variables you want to modify
+// $font-size-root: 20px;
+@import "~/node_modules/vue-cli-plugin-vuetify-preset-rally/preset/variables.scss";
+
+.theme--dark .v-card.v-sheet,
+.v-snack > .v-snack__wrapper {
+  box-shadow: $rally-box-shadow;
+}
+
+.v-card.v-sheet > .v-card__text,
+.v-card__subtitle {
+  color: $rally-text-color;
+}
+
+.v-tabs .v-tabs-slider {
+  background: $rally-tabs-slider-background;
+}
+
+.v-tab.v-tab--active {
+  color: $rally-text-color;
+}
+
+.v-toolbar.v-toolbar {
+  background-color: map-get($material-dark, "background");
+}
+
+.v-dialog > .theme--dark.v-card.v-sheet {
+  background-color: $rally-dialog-background-color;
+}
