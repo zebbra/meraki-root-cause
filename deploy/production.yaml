@@ -1,4 +1,7 @@
-api_url: https://meraki-root-cause.k8s.zebbra.ch/api
+image:
+  tag: git-20cb97c
+
+apiUrlBrowser: https://meraki-root-cause.k8s.zebbra.ch/api
 
 ingress:
   enabled: true

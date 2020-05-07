@@ -31,10 +31,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: API_URL
-              value: "http://{{ include "meraki-root-cause.fullname" . }}-backend/api"
-            - name: API_URL_BROWSER
-              value: {{ .Values.api_browser_url | quote }}
+            - name: API_PROXY_URL
+              value: "http://{{ include "meraki-root-cause.fullname" . }}-backend"
             - name: HOST
               value: '0.0.0.0'
             - name: PORT
