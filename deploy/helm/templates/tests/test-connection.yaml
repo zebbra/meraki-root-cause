@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "meraki-root-cause.fullname" . }}-test-connection"
+  labels:
+{{ include "meraki-root-cause.labels" . | indent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['{{ include "meraki-root-cause.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
