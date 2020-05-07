@@ -42,7 +42,6 @@ steps:
       tags: builder
       cache_from:
         - quay.io/zebbra/meraki-root-cause:builder
-      custom_labels: [quay.expires-after=30d]
       mtu: 1316
 
   - name: release

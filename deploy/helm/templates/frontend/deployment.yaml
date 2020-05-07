@@ -33,6 +33,8 @@ spec:
           env:
             - name: API_URL
               value: {{ .Values.api_url | quote }}
+            - name: API_URL_BROWSER
+              value: {{ .Values.api_url | quote }}
             - name: HOST
               value: '0.0.0.0'
             - name: PORT
