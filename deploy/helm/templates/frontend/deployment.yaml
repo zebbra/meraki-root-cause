@@ -32,9 +32,9 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: API_URL
-              value: {{ .Values.api_url | quote }}
+              value: "http://{{ include "meraki-root-cause.fullname" . }}-backend/api"
             - name: API_URL_BROWSER
-              value: {{ .Values.api_url | quote }}
+              value: {{ .Values.api_browser_url | quote }}
             - name: HOST
               value: '0.0.0.0'
             - name: PORT
