@@ -88,7 +88,7 @@ export default class NetworksService extends Moleculer.Service {
     params: schema<MerakiRootCause.INetworkId & { asJson: boolean }>(),
   })
   async topology(
-    ctx: Context<MerakiRootCause.INetworkId & { asJson: boolean }>,
+    ctx: Context<MerakiRootCause.INetworkId & { asJson: boolean | string }>,
   ) {
     const deviceStatuses: MerakiRootCause.IStatus[] &
       MerakiRootCause.IDeviceSummary[] = await ctx.call("devices.summary", {
