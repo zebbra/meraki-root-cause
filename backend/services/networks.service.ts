@@ -85,11 +85,9 @@ export default class NetworksService extends Moleculer.Service {
     // cache: {
     //   ttl: 1000 * 60 * 30,
     // },
-    params: schema<MerakiRootCause.INetworkId & { asJson: boolean }>(),
+    params: schema<MerakiRootCause.INetworkId>(),
   })
-  async topology(
-    ctx: Context<MerakiRootCause.INetworkId & { asJson: boolean | string }>,
-  ) {
+  async topology(ctx: Context<MerakiRootCause.INetworkId>) {
     const deviceStatuses: MerakiRootCause.IStatus[] &
       MerakiRootCause.IDeviceSummary[] = await ctx.call("devices.summary", {
       orgId: ctx.params.orgId,
@@ -125,9 +123,6 @@ export default class NetworksService extends Moleculer.Service {
     build(g, networkDevices, firewalls);
     calcStatus(g, degradedFirewallSerials);
 
-    if (ctx.params.asJson) {
-      return json.write(g) as MerakiRootCause.IJsonGraph;
-    }
-    return g;
+    return json.write(g) as MerakiRootCause.IJsonGraph;
   }
 }

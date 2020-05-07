@@ -34,7 +34,7 @@ export function topology<Data = unknown>(
   orgId: string,
   netId: string,
 ) {
-  const url = `/organizations/${orgId}/networks/${netId}/topology?asJson=true`;
+  const url = `/organizations/${orgId}/networks/${netId}/topology`;
 
   try {
     return context.$axios.$get(url);
