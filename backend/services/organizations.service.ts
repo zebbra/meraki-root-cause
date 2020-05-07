@@ -1,12 +1,12 @@
 import Moleculer, { Context } from "moleculer";
 import { Service, Action } from "moleculer-decorators";
 import { schema } from "ts-transformer-json-schema";
-import { get, set, pick } from "lodash";
+import { get, set, pick, filter } from "lodash";
 
 import Meraki from "../mixins/meraki";
 
 import { setOrganizationIdMeta } from "./globalHooks/company";
-import MerakiRootCause from "../@types";
+import MerakiRootCause from "../types";
 
 @Service({
   name: "organizations",
@@ -48,7 +48,10 @@ export default class OrganizationsService extends Moleculer.Service {
   async license(
     ctx: Context<MerakiRootCause.IOrganizationId>,
   ): Promise<MerakiRootCause.ILicense> {
-    return this._get(ctx, `organizations/${ctx.params.orgId}/licenseState`);
+    return this._get(
+      ctx,
+      `organizations/${ctx.params.orgId}/licenses/overview`,
+    );
   }
 
   @Action({
@@ -63,7 +66,7 @@ export default class OrganizationsService extends Moleculer.Service {
       const [networks, license, devicesSummary] = await Promise.all<
         MerakiRootCause.INetwork[],
         MerakiRootCause.ILicense,
-        MerakiRootCause.IInventory[]
+        MerakiRootCause.IDeviceSummary[]
       >([
         ctx.call("networks.list", {
           orgId: org.id,
@@ -94,6 +97,8 @@ export default class OrganizationsService extends Moleculer.Service {
           ms: 0,
           mr: 0,
           mv: 0,
+          mc: 0,
+          sm: 0,
         },
       };
 

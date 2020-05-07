@@ -28,3 +28,18 @@ export async function summary<Data = unknown>(
     return <any>[];
   }
 }
+
+export function topology<Data = unknown>(
+  context: Context | NuxtApp,
+  orgId: string,
+  netId: string,
+) {
+  const url = `/organizations/${orgId}/networks/${netId}/topology?asJson=true`;
+
+  try {
+    return context.$axios.$get(url);
+  } catch (error) {
+    context.error(error);
+    return <Data>{};
+  }
+}

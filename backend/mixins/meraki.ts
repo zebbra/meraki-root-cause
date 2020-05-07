@@ -12,12 +12,12 @@ const MerakiMixin: ServiceSchema = {
 
   created() {
     const instance = Axios.create({
-      baseURL: "https://api.meraki.com/api/v0/",
+      baseURL: "https://api.meraki.com/api/v1/",
       headers: {
         common: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "X-Cisco-Meraki-API-Key": process.env.MERAKI_API_KEY,
+          Authorization: `Bearer ${process.env.MERAKI_API_KEY}`,
         },
       },
       timeout: 1000 * 60,

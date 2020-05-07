@@ -28,7 +28,16 @@ export interface IOrganizationSummary {
 }
 
 export interface INetwork {
+  id: string;
   name: string;
   tags: string | null;
   type: string;
+}
+
+export interface ITopologyNode {
+  name: string;
+  serial: string;
+  mac: string;
+  status: string;
+  model: string;
 }

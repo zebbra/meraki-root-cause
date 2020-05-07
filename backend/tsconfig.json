@@ -9,9 +9,7 @@
     "sourceMap": true,
     "experimentalDecorators": true,
     "baseUrl": ".",
-    "paths": {
-      "json-bigint": ["@types/json-bigint"]
-    },
+    "paths": { "*": ["types/*"] },
     "outDir": "./dist",
     "types": ["jest", "node"],
     "plugins": [{ "transform": "ts-transformer-json-schema/transformer" }]

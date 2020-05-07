@@ -1,7 +1,7 @@
 import { Context } from "moleculer";
 import { Errors } from "moleculer";
 
-import MerakiRootCause from "../../@types";
+import MerakiRootCause from "../../types";
 
 export function setOrganizationIdMeta(
   ctx: Context<MerakiRootCause.IOrganizationId, { orgId: string | undefined }>,

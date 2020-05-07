@@ -19,6 +19,7 @@
         :items="organizations"
         :sort-by="['name']"
         :search="search"
+        class="organizations-data-table"
         @click:row="onRowClicked"
       >
         <template v-slot:item.status="{ item }">
@@ -106,7 +107,7 @@ export default defineComponent({
 </script>
 
 <style>
-.v-data-table table tbody tr {
+.organizations-data-table table tbody tr {
   cursor: pointer;
 }
 </style>

@@ -17,6 +17,8 @@
         :items="networks"
         :sort-by="['name']"
         :search="search"
+        class="networks-data-table"
+        @click:row="onRowClicked"
       />
     </v-card-text>
   </v-card>
@@ -29,9 +31,10 @@ import {
   Ref,
   computed,
   watch,
+  // onUnmounted,
 } from "nuxt-composition-api";
 import { summary } from "~/composable/useNetworks";
-import { organizationStore } from "~/store";
+import { organizationStore, networkStore } from "~/store";
 import { INetwork } from "~/types";
 
 export default defineComponent({
@@ -50,6 +53,15 @@ export default defineComponent({
         );
       }
     });
+
+    function onRowClicked(network: INetwork) {
+      networkStore.setSelectedNetwork({ id: network.id, name: network.name });
+      context.root.$router.push(`/networks/${network.id}`);
+    }
+
+    // onUnmounted(() => {
+    //   networkStore.setSelectedNetwork(undefined);
+    // });
 
     return {
       headers: [
@@ -76,6 +88,7 @@ export default defineComponent({
       ],
       networks,
       search: "",
+      onRowClicked,
     };
   },
   head(): any {
@@ -85,3 +98,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+.networks-data-table table tbody tr {
+  cursor: pointer;
+}
+</style>

@@ -8,6 +8,10 @@
     <span>{{ item.devices.mr }}</span>
     <v-icon x-small color="info">mdi-server-network</v-icon>
     <span>{{ item.devices.mv }}</span>
+    <v-icon x-small color="info">mdi-camera</v-icon>
+    <span>{{ item.devices.mc }}</span>
+    <v-icon x-small color="info">mdi-vpn</v-icon>
+    <span>{{ item.devices.sm }}</span>
   </span>
 </template>
 
