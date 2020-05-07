@@ -20,6 +20,7 @@
         :sort-by="['name']"
         :search="search"
         class="organizations-data-table"
+        :loading="organizations.length === 0"
         @click:row="onRowClicked"
       >
         <template v-slot:item.status="{ item }">

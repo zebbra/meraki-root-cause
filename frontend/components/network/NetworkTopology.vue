@@ -1,9 +1,16 @@
 <template>
-  <svg class="svg-network-topology"></svg>
+  <v-card :loading="loading">
+    <v-card-title>
+      <span class="info--text">{{ name }} - Network Topology</span>
+    </v-card-title>
+    <v-card-text>
+      <svg class="svg-network-topology"></svg>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
-import { defineComponent, withContext } from "nuxt-composition-api";
+import { defineComponent, withContext, ref } from "nuxt-composition-api";
 import { graphlib, render as Renderer } from "dagre-d3";
 import * as d3 from "d3";
 
@@ -13,12 +20,15 @@ import { organizationStore, networkStore } from "~/store";
 export default defineComponent({
   name: "NetworkTopology",
   setup() {
+    const loading = ref(true);
+
     withContext(async (context) => {
       const data = await topology(
         context,
         organizationStore.selectedOrganization!.id,
         networkStore.selectedNetwork!.id,
       );
+      loading.value = false;
 
       const graph = graphlib.json.read(data).setGraph({
         ranksep: 100,
@@ -84,7 +94,10 @@ export default defineComponent({
       renderer(inner, graph);
     });
 
-    return {};
+    return {
+      name: networkStore.selectedNetwork!.name,
+      loading,
+    };
   },
 });
 </script>

@@ -18,6 +18,7 @@
         :sort-by="['name']"
         :search="search"
         class="networks-data-table"
+        :loading="networks.length === 0"
         @click:row="onRowClicked"
       />
     </v-card-text>
