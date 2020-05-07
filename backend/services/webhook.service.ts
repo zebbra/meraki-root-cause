@@ -51,5 +51,9 @@ export default class AlertsService extends Moleculer.Service {
     } catch (error) {
       console.error(error);
     }
+
+    return {
+      status: "ok",
+    };
   }
 }
