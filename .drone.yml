@@ -26,9 +26,6 @@ steps:
 kind: pipeline
 name: build
 
-depends_on:
-  - test
-
 trigger:
   event: [push]
   branch: ["master", "deployment"]
@@ -48,6 +45,7 @@ kind: pipeline
 name: deploy
 
 depends_on:
+  - test
   - build
 
 trigger:
