@@ -1,0 +1,71 @@
+kind: pipeline
+name: test
+
+trigger:
+  event: [push]
+
+steps:
+  - name: frontend
+    image: node:12.4-slim
+    commands:
+      - cd frontend
+      - yarn install --pure-lockfile
+      - yarn lint
+      - yarn test
+    depends_on: [clone]
+
+  - name: backend
+    image: node:12.4-slim
+    commands:
+      - cd backend
+      - yarn install --pure-lockfile
+      - yarn lint
+      - yarn test
+    depends_on: [clone]
+---
+kind: pipeline
+name: build
+
+depends_on:
+  - test
+
+trigger:
+  event: [push]
+  branch: ["master", "deployment"]
+
+steps:
+  - name: docker
+    image: plugins/docker
+    settings:
+      username: { from_secret: quay_username }
+      password: { from_secret: quay_password }
+      registry: quay.io
+      repo: quay.io/zebbra/meraki-root-cause
+      tags: "latest,git-${DRONE_COMMIT_SHA:0:7}"
+      mtu: 1316
+---
+kind: pipeline
+name: deploy
+
+depends_on:
+  - build
+
+trigger:
+  event: [push]
+  branch: ["master", "deployment"]
+
+steps:
+  - name: helm
+    image: quay.io/ipedrazas/drone-helm
+    environment:
+      API_SERVER: https://kubernetes.default
+      KUBERNETES_TOKEN: { from_secret: kubernetes_token }
+    settings:
+      chart: ./deploy/helm
+      release: meraki-root-cause
+      namespace: meraki-root-cause
+      values: image.tag=git-${DRONE_COMMIT_SHA:0:7}
+      values_files:
+        - ./deploy/production.yaml
+      reuse_values: false
+      skip_tls_verify: true
