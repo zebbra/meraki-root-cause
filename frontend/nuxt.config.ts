@@ -47,6 +47,7 @@ export default {
     // Doc: https://github.com/nuxt-community/eslint-module
     "@nuxtjs/eslint-module",
   ],
+
   /*
    ** Nuxt.js modules
    */
@@ -60,6 +61,7 @@ export default {
     // Doc: https://github.com/Developmint/nuxt-webfontloader
     "nuxt-webfontloader",
   ],
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -71,16 +73,22 @@ export default {
         "Content-Type": "application/json",
       },
     },
-    baseUrl:
-      process.env.NODE_ENV === "production"
-        ? "https://meraki-root-cause.k8s.zebbra.ch/api/"
-        : process.env.API_URL,
+
+    prefix: "/api",
+    proxy: true,
+    debug: true,
   },
+
+  proxy: {
+    "/api/": process.env.API_PROXY_URL || "http://localhost:3001",
+  },
+
   typescript: {
     typeCheck: {
       eslint: true,
     },
   },
+
   webfontloader: {
     custom: {
       families: ["Roboto Condensed", "Eczar"],
