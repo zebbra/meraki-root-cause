@@ -29,11 +29,8 @@
     "@types/node": "^13.13.5",
     "jest": "^26.0.1",
     "jest-cli": "^26.0.1",
-    "moleculer-decorators": "^1.2.0",
-    "moleculer-repl": "^0.6.4",
     "ts-jest": "^25.4.0",
     "ts-node": "^8.10.1",
-    "ts-transformer-json-schema": "^0.6.12",
     "tslint": "^6.1.2",
     "ttypescript": "^1.5.7",
     "typescript": "^3.2.2"
@@ -46,7 +43,10 @@
     "json-bigint": "^0.3.0",
     "lodash": "^4.17.15",
     "moleculer": "^0.14.6",
-    "moleculer-web": "^0.9.1"
+    "moleculer-web": "^0.9.1",
+    "moleculer-decorators": "^1.2.0",
+    "moleculer-repl": "^0.6.4",
+    "ts-transformer-json-schema": "^0.6.12"
   },
   "engines": {
     "node": ">= 12.x.x"

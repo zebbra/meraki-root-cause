@@ -1,0 +1,16 @@
+image:
+  tag: git-f89268f
+
+apiUrlBrowser: https://meraki-root-cause.k8s.zebbra.ch/api
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: meraki-root-cause.k8s.zebbra.ch
+  tls:
+    - secretName: meraki-root-cause-tls
+      hosts:
+        - meraki-root-cause.k8s.zebbra.ch

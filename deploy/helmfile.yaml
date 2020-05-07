@@ -1,0 +1,6 @@
+releases:
+  - name: meraki-root-cause
+    namespace: meraki-root-cause
+    chart: ./helm
+    values:
+      - production.yaml
