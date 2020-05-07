@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+console.log(process.env.NODE_ENV);
 export default {
   mode: "universal",
   /*
@@ -71,6 +72,10 @@ export default {
         "Content-Type": "application/json",
       },
     },
+    baseUrl:
+      process.env.NODE_ENV === "production"
+        ? "https://meraki-root-cause.k8s.zebbra.ch/api/"
+        : process.env.API_URL,
   },
   typescript: {
     typeCheck: {
