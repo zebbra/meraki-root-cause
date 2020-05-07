@@ -42,7 +42,7 @@ export default defineComponent({
           case "alarming":
             color = "warning";
             break;
-          case "offline":
+          case "down":
             color = "error";
             break;
 
