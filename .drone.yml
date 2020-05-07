@@ -21,6 +21,7 @@ steps:
       - yarn install --pure-lockfile
       - yarn lint
       - yarn test
+
     depends_on: [clone]
 ---
 kind: pipeline
