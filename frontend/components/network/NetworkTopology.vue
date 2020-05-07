@@ -73,6 +73,13 @@ export default defineComponent({
 
       const svg = d3.select(".svg-network-topology");
       const inner: any = svg.append("g");
+
+      const zoom = d3.zoom().on("zoom", () => {
+        inner.attr("transform", d3.event.transform);
+      });
+
+      // @ts-ignore
+      svg.call(zoom);
       const renderer = new Renderer();
       renderer(inner, graph);
     });
@@ -86,8 +93,8 @@ export default defineComponent({
 svg.svg-network-topology {
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  min-height: 600px;
+  overflow: scroll;
+  min-height: 900px;
 }
 
 .edgePath path {
