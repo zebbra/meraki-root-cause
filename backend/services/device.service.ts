@@ -6,7 +6,8 @@ import { find } from "lodash";
 import Meraki from "../mixins/meraki";
 
 import { setOrganizationIdMeta } from "./globalHooks/company";
-import MerakiRootCause from "../@types";
+import { extract } from "./devices/methods/topology";
+import MerakiRootCause from "../types";
 
 @Service({
   name: "devices",
@@ -71,7 +72,25 @@ export default class DevicesService extends Moleculer.Service {
         Object.assign(device, inventoryDevice);
       }
 
-      return device;
+      return device as MerakiRootCause.IDeviceSummary;
     });
+  }
+
+  @Action({
+    cache: {
+      ttl: 1000 * 60 * 30,
+    },
+    params: schema<MerakiRootCause.INetworkId & { serial: string }>(),
+  })
+  async neighbors(
+    ctx: Context<MerakiRootCause.INetworkId & { serial: string }>,
+  ) {
+    const info: MerakiRootCause.ILldpCdpPortsMap = await this._get(
+      ctx,
+      `networks/${ctx.params.netId}/devices/${ctx.params.serial}/lldp_cdp`,
+      { timespan: 60 * 60 * 24 * 3 }, // three days back in case of weekend
+    );
+
+    return extract(info);
   }
 }

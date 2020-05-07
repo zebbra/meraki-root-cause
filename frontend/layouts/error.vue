@@ -18,9 +18,11 @@ export default defineComponent({
     },
   },
   setup({ error }) {
-    const otherError = Array.isArray(error.response?.data)
-      ? JSON.stringify(error.response.data)
-      : error.response.data?.message || "An error occurred";
+    const otherError =
+      error.response && Array.isArray(error.response?.data)
+        ? JSON.stringify(error.response.data)
+        : (error.response && error.response.data?.message) ||
+          "An error occurred";
 
     return {
       pageNotFound: "404 Not Found",

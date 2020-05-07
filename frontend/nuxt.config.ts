@@ -22,7 +22,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: "red", heigth: "5px" },
   router: {
     middleware: ["organizationContext"],
   },
