@@ -2,6 +2,7 @@ import { ServiceSchema, Context } from "moleculer";
 import Axios, { AxiosError } from "axios";
 import SingletonBottleneck from "../lib/bottleneck";
 import JsonBigInt from "json-bigint";
+import { get } from "lodash";
 
 import { delay } from "../lib/utils";
 
@@ -82,11 +83,15 @@ const MerakiMixin: ServiceSchema = {
         priority = 9;
       }
 
-      ctx.broker.logger.debug(method, url, params, data);
+      return this.group.key(organization).schedule({ priority }, () => {
+        this.broker.logger.info(
+          method,
+          url,
+          params ? params : "",
+          data ? data : "",
+        );
 
-      return this.group
-        .key(organization)
-        .schedule({ priority }, this.instance, {
+        return this.instance({
           method,
           headers: {
             "H-AUTH-ORGANIZATION": organization,
@@ -96,6 +101,7 @@ const MerakiMixin: ServiceSchema = {
           params,
           data,
         });
+      });
     },
 
     async _errorHandler(error: AxiosError) {
@@ -117,11 +123,22 @@ const MerakiMixin: ServiceSchema = {
           throw error;
 
         case 429:
-          await delay(1000);
+          const seconds = Number(get(error, "response.headers.retry-after", 1));
+          const message = `${error.response.config.method.toUpperCase()}: ${
+            error.response.config.url
+          } return 429, going to back off ${seconds} seconds`;
+          this.broker.logger.warn(message);
+          await delay(seconds * 1000);
 
-          return this.group
-            .key(organization)
-            .schedule({ priority: 1 }, this.instance, error.config);
+          return this.group.key(organization).schedule({ priority: 1 }, () => {
+            this.broker.logger.info(
+              error.response.config.method.toUpperCase(),
+              error.response.config.url,
+              error.response.config.params ? error.response.config.params : "",
+              error.response.config.data ? error.response.config.data : "",
+            );
+            return this.instance(error.config);
+          });
 
         default:
           throw error;

@@ -10,7 +10,7 @@ class Singleton {
       this.logger = logger;
 
       Singleton.instance = new Bottleneck.Group({
-        maxConcurrent: 5,
+        maxConcurrent: 10,
         minTime: 200,
         highWater: 1000,
       });

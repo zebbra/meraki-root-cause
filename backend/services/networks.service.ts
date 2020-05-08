@@ -9,7 +9,10 @@ import Meraki from "../mixins/meraki";
 import { setOrganizationIdMeta } from "./globalHooks/company";
 import MerakiRootCause from "../types";
 import { build, calcStatus } from "./devices/methods/topology";
-import { getDegradedFirewallSerials } from "./networks/methods/topology";
+import {
+  getDegradedFirewallSerials,
+  detectRoots,
+} from "./networks/methods/topology";
 
 @Service({
   name: "networks",
@@ -72,7 +75,6 @@ export default class NetworksService extends Moleculer.Service {
 
   @Action({
     rest: "GET /:orgId/networks/:netId/devices",
-    cache: true,
     params: schema<MerakiRootCause.INetworkId>(),
   })
   async devices(ctx: Context<MerakiRootCause.INetworkId, { orgId: string }>) {
@@ -82,28 +84,20 @@ export default class NetworksService extends Moleculer.Service {
 
   @Action({
     rest: "GET /:orgId/networks/:netId/topology",
-    // cache: {
-    //   ttl: 1000 * 60 * 30,
-    // },
+    cache: {
+      ttl: 1000 * 60 * 5,
+    },
     params: schema<MerakiRootCause.INetworkId>(),
   })
   async topology(ctx: Context<MerakiRootCause.INetworkId>) {
-    const deviceStatuses: MerakiRootCause.IStatus[] &
+    const devices: MerakiRootCause.IStatus[] &
       MerakiRootCause.IDeviceSummary[] = await ctx.call("devices.summary", {
       orgId: ctx.params.orgId,
     });
 
-    const networkDevices = filter(deviceStatuses, {
+    const networkDevices = filter(devices, {
       networkId: ctx.params.netId,
     });
-
-    const firewalls = filter(
-      networkDevices,
-      (device) =>
-        device.model.startsWith("MX") || device.model.startsWith("vMX"),
-    );
-
-    const degradedFirewallSerials = getDegradedFirewallSerials(firewalls);
 
     await Promise.all(
       networkDevices.map(async (device) => {
@@ -116,11 +110,19 @@ export default class NetworksService extends Moleculer.Service {
       }),
     );
 
+    const firewalls = filter(
+      networkDevices,
+      (device) =>
+        device.model.startsWith("MX") || device.model.startsWith("vMX"),
+    );
+    const degradedFirewallSerials = getDegradedFirewallSerials(firewalls);
+    const roots = detectRoots(networkDevices);
+
     const g = new Graph({
       directed: true,
     });
 
-    build(g, networkDevices, firewalls);
+    build(g, networkDevices, roots);
     calcStatus(g, degradedFirewallSerials);
 
     return json.write(g) as MerakiRootCause.IJsonGraph;
