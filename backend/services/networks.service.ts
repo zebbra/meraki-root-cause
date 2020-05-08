@@ -122,7 +122,7 @@ export default class NetworksService extends Moleculer.Service {
       directed: true,
     });
 
-    build(g, networkDevices, roots);
+    build(g, networkDevices, roots.length === 0 ? firewalls : roots);
     calcStatus(g, degradedFirewallSerials);
 
     return json.write(g) as MerakiRootCause.IJsonGraph;
