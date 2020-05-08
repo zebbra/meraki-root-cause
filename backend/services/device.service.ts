@@ -31,7 +31,9 @@ import MerakiRootCause from "../types";
 export default class DevicesService extends Moleculer.Service {
   @Action({
     rest: "GET /organizations/:orgId/devices/statuses",
-    cache: true,
+    cache: {
+      ttl: 1000 * 60 * 5,
+    },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
   async statuses(
@@ -42,7 +44,9 @@ export default class DevicesService extends Moleculer.Service {
 
   @Action({
     rest: "GET /organizations/:orgId/devices/inventory",
-    cache: true,
+    cache: {
+      ttl: 1000 * 60 * 5,
+    },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
   async inventory(
@@ -92,5 +96,17 @@ export default class DevicesService extends Moleculer.Service {
     );
 
     return extract(info);
+  }
+
+  @Action({
+    cache: {
+      ttl: 1000 * 60 * 5,
+    },
+    params: schema<MerakiRootCause.IOrganizationId & { serial: string }>(),
+  })
+  async uplinks(
+    ctx: Context<MerakiRootCause.IOrganizationId & { serial: string }>,
+  ): Promise<MerakiRootCause.IUplink[]> {
+    return this._get(ctx, `devices/${ctx.params.serial}/uplink`);
   }
 }

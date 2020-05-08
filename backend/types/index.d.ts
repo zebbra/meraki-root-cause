@@ -7,7 +7,6 @@ declare namespace MerakiRootCause {
     claimedAt: string;
     publicIp?: any;
     name: string;
-    [propName: string]: any;
   }
 
   interface IStatus {
@@ -22,10 +21,12 @@ declare namespace MerakiRootCause {
     wan1Ip?: any;
     wan2Ip?: any;
     lanIp?: any;
-    neighbors?: INeighbor[];
   }
 
-  export interface IDeviceSummary extends IInventory, IStatus {}
+  export interface IDeviceSummary extends IInventory, IStatus {
+    neighbors?: INeighbor[];
+    uplinks?: IUplink[];
+  }
 
   export interface INetwork {
     id: string;
@@ -119,6 +120,16 @@ declare namespace MerakiRootCause {
     };
     nodes: ITopologyNode[];
     edges: ITopologyEdge[];
+  }
+
+  export interface IUplink {
+    interface: string;
+    status: string;
+    ip: string;
+    gateway: string;
+    publicIp: string;
+    dns: string;
+    usingStaticIp: boolean;
   }
 }
 

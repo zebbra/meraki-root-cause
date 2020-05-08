@@ -9,6 +9,8 @@ import {
   pick,
   get,
   difference,
+  filter,
+  each,
 } from "lodash";
 import { Graph } from "@dagrejs/graphlib";
 
@@ -74,19 +76,62 @@ function build(
     return includes(currentDevicesSerials, neighbor.serial);
   }
 
+  function inverseNeighbors(networkDevice: MerakiRootCause.IDeviceSummary) {
+    if (networkDevice.serial !== "Q2QW-W2W4-MCNR") return;
+
+    const existingNeighborMacs = compact(map(networkDevice.neighbors, "mac"));
+
+    filter(
+      allDevices,
+      (device) => device.serial !== networkDevice.serial, // exclude own device
+    ).forEach((device) => {
+      each(device.neighbors, (neighbor) => {
+        if (
+          neighbor.mac === networkDevice.mac &&
+          !includes(existingNeighborMacs, device.mac)
+        ) {
+          const inverseNeighbor: MerakiRootCause.INeighbor = {
+            portId: neighbor.sourcePort,
+            mac: device.mac,
+            deviceId: device.mac.replace(/:/g, ""),
+            address: device.lanIp,
+            sourcePort: neighbor.portId,
+            systemName: `Meraki ${device.model}`,
+            managementAddress: device.lanIp,
+          };
+
+          networkDevice.neighbors.push(inverseNeighbor);
+          return false;
+        }
+
+        return true;
+      });
+    });
+  }
+
   currentDevices.forEach((src: MerakiRootCause.IDeviceSummary) => {
     if (!g.hasNode(src.serial)) {
       g.setNode(src.serial, sanitizeNode(src));
     }
 
+    // add inverse lookup
+    inverseNeighbors(src);
+
     chain(src.neighbors || [])
+      // filter out circles
+      .filter((neighbor) => neighbor.mac !== src.mac)
+
+      // filter out neighbors for which the device is not found in network and return network device
       .map((neighbor) => find(allDevices, { mac: neighbor.mac }))
       .compact()
+
       // discard neighbors for which the source node is a successor and it is not on the same level
       .filter(
         (neighbor) => !isParentOf(src, neighbor) || isOnSameLevel(neighbor),
       )
+
       .value()
+
       .forEach((neighbor) => {
         if (!g.hasNode(neighbor.serial)) {
           neighborDevices.push(neighbor);
