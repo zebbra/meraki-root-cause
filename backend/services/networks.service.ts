@@ -120,13 +120,14 @@ export default class NetworksService extends Moleculer.Service {
         device.model.startsWith("MX") || device.model.startsWith("vMX"),
     );
     const degradedFirewallSerials = getDegradedFirewallSerials(firewalls);
-    const roots = detectRoots(networkDevices);
+    // const roots = detectRoots(networkDevices);
 
     const g = new Graph({
       directed: true,
     });
 
-    build(g, networkDevices, roots.length === 0 ? firewalls : roots);
+    // build(g, networkDevices, roots.length === 0 ? firewalls : roots);
+    build(g, networkDevices, firewalls);
     calcStatus(g, degradedFirewallSerials);
 
     return json.write(g) as MerakiRootCause.IJsonGraph;

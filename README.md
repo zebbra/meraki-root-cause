@@ -10,6 +10,10 @@
 
 We use meraki lldp and cdp information together with the device statuses to build a forced directed network graph for each network. As this process is somewhat expensive to execute with respect to the amount of api calls as well as the compution of the forced directed network graph, we make use of [Moleculer caches](https://moleculer.services/docs/0.14/caching.html#content-inner) to store information locally (in general for 30 minutes). In addition we listen to [meraki webhook alerts](https://documentation.meraki.com/zGeneral_Administration/Other_Topics/Webhooks) and classify incoming alerts so that we are able to clean affected caches (sources) if necessary.
 
+### Root Device(s)
+
+In order to build a forced directed graph we need to define one or more root device(s) from which to start the graph. The current approach simply takes the network firewalls as root devices.
+
 ## How it looks like
 
 ![Preview](doc/image02.png)

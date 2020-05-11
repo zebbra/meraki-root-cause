@@ -81,6 +81,7 @@ export default class DevicesService extends Moleculer.Service {
   }
 
   @Action({
+    rest: "GET organizations/:orgId/networks/:netId/devices/:serial/neighbors",
     cache: {
       ttl: 1000 * 60 * 60,
     },
@@ -99,6 +100,7 @@ export default class DevicesService extends Moleculer.Service {
   }
 
   @Action({
+    rest: "GET organizations/:orgId/devices/:serial",
     cache: {
       ttl: 1000 * 60 * 30,
     },
