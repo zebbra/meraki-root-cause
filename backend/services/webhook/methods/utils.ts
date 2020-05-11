@@ -3,7 +3,7 @@ import MerakiRootCause from "../../../types";
 
 export function deep<Data = unknown>(
   obj: object,
-  mapper: (x: any) => Data,
+  mapper: (x: any) => any,
 ): Data {
   return mapper(
     mapValues(obj, (v) => {
