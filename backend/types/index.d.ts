@@ -131,6 +131,14 @@ declare namespace MerakiRootCause {
     dns: string;
     usingStaticIp: boolean;
   }
+
+  export interface IMerakiAlert {
+    alertType: string;
+    sharedSecret: string;
+    organizationId: string;
+    networkId: string;
+    deviceSerial?: string;
+  }
 }
 
 export default MerakiRootCause;

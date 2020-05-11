@@ -32,7 +32,7 @@ export default class DevicesService extends Moleculer.Service {
   @Action({
     rest: "GET /organizations/:orgId/devices/statuses",
     cache: {
-      ttl: 1000 * 60 * 5,
+      ttl: 1000 * 60 * 30,
     },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
@@ -45,7 +45,7 @@ export default class DevicesService extends Moleculer.Service {
   @Action({
     rest: "GET /organizations/:orgId/devices/inventory",
     cache: {
-      ttl: 1000 * 60 * 5,
+      ttl: 1000 * 60 * 30,
     },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
@@ -82,7 +82,7 @@ export default class DevicesService extends Moleculer.Service {
 
   @Action({
     cache: {
-      ttl: 1000 * 60 * 30,
+      ttl: 1000 * 60 * 60,
     },
     params: schema<MerakiRootCause.INetworkId & { serial: string }>(),
   })
@@ -100,7 +100,7 @@ export default class DevicesService extends Moleculer.Service {
 
   @Action({
     cache: {
-      ttl: 1000 * 60 * 5,
+      ttl: 1000 * 60 * 30,
     },
     params: schema<MerakiRootCause.IOrganizationId & { serial: string }>(),
   })

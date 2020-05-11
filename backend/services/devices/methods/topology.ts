@@ -188,7 +188,7 @@ function calcStatus(graph: Graph, degradedFirewallIds: string[]) {
         break;
 
       default:
-        node.techStatus = "unknow";
+        node.techStatus = "unknown";
         break;
     }
   });

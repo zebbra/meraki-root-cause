@@ -38,4 +38,4 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 ## Environment Variables
 
 - `API_URL` Backend api url
-- `Port` on which port to start frontend
+- `PORT` on which port to start frontend

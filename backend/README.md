@@ -46,4 +46,5 @@ yarn test
 ## Environment Variables
 
 - `MERAKI_API_KEY` Secret meraki key to access meraki rest api
-- `Port` on which port to start backend
+- `PORT` on which port to start backend
+- `MERAKI_WEBHOOK_SECRET` secret the meraki webhook alert has to match (leave empty to skip secret validation)

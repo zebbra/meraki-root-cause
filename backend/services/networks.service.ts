@@ -36,7 +36,9 @@ import {
 export default class NetworksService extends Moleculer.Service {
   @Action({
     rest: "GET /:orgId/networks",
-    cache: true,
+    cache: {
+      ttl: 1000 * 60 * 30,
+    },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
   async list(
@@ -47,7 +49,6 @@ export default class NetworksService extends Moleculer.Service {
 
   @Action({
     rest: "GET /:orgId/networks/summary",
-    cache: true,
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
   async summary(ctx: Context<MerakiRootCause.IOrganizationId>) {
@@ -75,6 +76,9 @@ export default class NetworksService extends Moleculer.Service {
 
   @Action({
     rest: "GET /:orgId/networks/:netId/devices",
+    cache: {
+      ttl: 1000 * 60 * 30,
+    },
     params: schema<MerakiRootCause.INetworkId>(),
   })
   async devices(ctx: Context<MerakiRootCause.INetworkId, { orgId: string }>) {
@@ -85,7 +89,7 @@ export default class NetworksService extends Moleculer.Service {
   @Action({
     rest: "GET /:orgId/networks/:netId/topology",
     cache: {
-      ttl: 1000 * 60 * 5,
+      ttl: 1000 * 60 * 30,
     },
     params: schema<MerakiRootCause.INetworkId>(),
   })

@@ -30,7 +30,9 @@ import MerakiRootCause from "../types";
 export default class OrganizationsService extends Moleculer.Service {
   @Action({
     rest: "GET /",
-    cache: true,
+    cache: {
+      ttl: 1000 * 60 * 30,
+    },
   })
   async list(ctx: Context): Promise<MerakiRootCause.IOrganization[]> {
     const organizations: MerakiRootCause.IOrganization[] = await this._get(
@@ -42,7 +44,9 @@ export default class OrganizationsService extends Moleculer.Service {
 
   @Action({
     rest: "GET /:orgId/license",
-    cache: true,
+    cache: {
+      ttl: 1000 * 60 * 30,
+    },
     params: schema<MerakiRootCause.IOrganizationId>(),
   })
   async license(
