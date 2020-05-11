@@ -32,6 +32,7 @@ yarn test
 ## Requirements
 
 - [Node.js v12](https://nodejs.org/en/)
+- Application works best if its running as a single-node local-services instance. Otherwise one needs to adapt the meraki mixin and the bottleneck logic to guarantee the 5req/sec restriction to the meraki api.
 
 ## Development Setup
 

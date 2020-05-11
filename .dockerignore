@@ -9,3 +9,5 @@ backend/node_modules
 frontend/dist
 frontend/node_modules
 frontend/.nuxt
+
+doc
