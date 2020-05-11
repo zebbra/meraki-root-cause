@@ -8,7 +8,7 @@
     "deps": "yarn upgrade-interactive --latest",
     "dev": "ts-node --compiler ttypescript ./node_modules/moleculer/bin/moleculer-runner.js --hot --repl --config moleculer.config.ts services/**/*.service.ts",
     "cli": "moleculer connect ",
-    "start": "moleculer-runner --config --env ./dist/services",
+    "start": "moleculer-runner --config ./dist/moleculer.config.js --env ./dist/services",
     "ci": "jest --watch",
     "test": "jest --coverage",
     "lint": "tslint -p tsconfig.json"
