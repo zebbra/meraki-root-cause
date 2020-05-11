@@ -1,7 +1,10 @@
 import { mapValues, isPlainObject } from "lodash";
 import MerakiRootCause from "../../../types";
 
-export function deep<Data = unknown>(obj: object, mapper: Function): Data {
+export function deep<Data = unknown>(
+  obj: object,
+  mapper: (x: any) => Data,
+): Data {
   return mapper(
     mapValues(obj, (v) => {
       return isPlainObject(v) ? deep(v, mapper) : v;
