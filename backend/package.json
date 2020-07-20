@@ -41,7 +41,7 @@
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "json-bigint": "^0.3.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moleculer": "^0.14.6",
     "moleculer-web": "^0.9.1",
     "moleculer-decorators": "^1.2.0",
