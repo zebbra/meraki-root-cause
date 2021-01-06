@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@dagrejs/graphlib": "^2.1.4",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bottleneck": "^2.19.5",
     "dotenv": "^8.2.0",
     "json-bigint": "^0.3.0",
