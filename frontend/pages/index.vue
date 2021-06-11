@@ -23,16 +23,16 @@
         :loading="organizations.length === 0"
         @click:row="onRowClicked"
       >
-        <template v-slot:item.status="{ item }">
+        <template #item.status="{ item }">
           <v-icon x-small :color="item.status === 'OK' ? 'success' : 'warning'"
             >mdi-circle</v-icon
           >
           <span>{{ item.status }}</span>
         </template>
-        <template v-slot:item.statuses="{ item }">
+        <template #item.statuses="{ item }">
           <device-status-column :item="item" />
         </template>
-        <template v-slot:item.devices="{ item }">
+        <template #item.devices="{ item }">
           <device-device-column :item="item" />
         </template>
       </v-data-table>
@@ -67,7 +67,7 @@ export default defineComponent({
     } = useContext();
     const organizations: Ref<IOrganizationSummary[]> = ref([]);
 
-    useFetch(async (context) => {
+    useFetch(async () => {
       organizations.value = await summary($axios, error);
     });
 

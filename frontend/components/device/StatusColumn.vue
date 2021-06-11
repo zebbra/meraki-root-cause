@@ -17,7 +17,10 @@ import { defineComponent } from "@nuxtjs/composition-api";
 export default defineComponent({
   name: "DeviceStatusColumn",
   props: {
-    item: Object,
+    item: {
+      type: Object,
+      default: () => {},
+    },
   },
 });
 </script>
