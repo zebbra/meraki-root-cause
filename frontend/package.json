@@ -13,15 +13,6 @@
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
     "test": "jest"
   },
-  "lint-staged": {
-    "*.{ts,js,vue}": "yarn lint",
-    "*.{css,vue}": "stylelint"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/composition-api": "^0.24.4",
@@ -49,9 +40,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": ">=2.0.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "husky": "^6.0.0",
     "jest": "^27.0.4",
-    "lint-staged": "^11.0.0",
     "prettier": "^2.3.1",
     "stylelint": "^13.13.1",
     "ts-jest": "^27.0.3",
