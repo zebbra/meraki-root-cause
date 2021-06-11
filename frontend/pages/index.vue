@@ -41,7 +41,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, withContext, ref, Ref } from "nuxt-composition-api";
+import {
+  defineComponent,
+  ref,
+  Ref,
+  useContext,
+  useFetch,
+} from "@nuxtjs/composition-api";
+
 import DeviceDeviceColumn from "~/components/device/DeviceColumn.vue";
 import DeviceStatusColumn from "~/components/device/StatusColumn.vue";
 import { summary } from "~/composable/useOrganizations";
@@ -52,11 +59,16 @@ import { organizationStore } from "~/store";
 export default defineComponent({
   name: "Organizations",
   components: { DeviceDeviceColumn, DeviceStatusColumn },
-  setup(_, context) {
+  setup() {
+    const {
+      route,
+      error,
+      app: { router, $axios },
+    } = useContext();
     const organizations: Ref<IOrganizationSummary[]> = ref([]);
 
-    withContext(async (context) => {
-      organizations.value = await summary<IOrganizationSummary[]>(context);
+    useFetch(async (context) => {
+      organizations.value = await summary($axios, error);
     });
 
     function onRowClicked(organization: IOrganizationSummary) {
@@ -65,7 +77,9 @@ export default defineComponent({
         name: organization.name,
       });
 
-      handleSelectedOrganization(context);
+      if (router) {
+        handleSelectedOrganization(route, router);
+      }
     }
 
     return {

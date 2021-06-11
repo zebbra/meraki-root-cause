@@ -43,7 +43,7 @@ export default class DevicesService extends Moleculer.Service {
   }
 
   @Action({
-    rest: "GET /organizations/:orgId/devices/inventory",
+    rest: "GET /organizations/:orgId/inventoryDevices",
     cache: {
       ttl: 1000 * 60 * 30,
     },
@@ -52,7 +52,7 @@ export default class DevicesService extends Moleculer.Service {
   async inventory(
     ctx: Context<MerakiRootCause.IOrganizationId>,
   ): Promise<MerakiRootCause.IInventory[]> {
-    return this._get(ctx, `organizations/${ctx.params.orgId}/inventory`);
+    return this._get(ctx, `organizations/${ctx.params.orgId}/inventoryDevices`);
   }
 
   @Action({

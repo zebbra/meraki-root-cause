@@ -6,7 +6,7 @@ trigger:
 
 steps:
   - name: frontend
-    image: node:12.4-slim
+    image: node:14.16-slim
     commands:
       - cd frontend
       - yarn install --pure-lockfile
@@ -15,7 +15,7 @@ steps:
     depends_on: [clone]
 
   - name: backend
-    image: node:12.4-slim
+    image: node:14.16-slim
     commands:
       - cd backend
       - yarn install --pure-lockfile

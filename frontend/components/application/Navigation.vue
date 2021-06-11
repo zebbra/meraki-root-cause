@@ -25,11 +25,12 @@
 <script lang="ts">
 import {
   defineComponent,
-  withContext,
   Ref,
   ref,
   computed,
-} from "nuxt-composition-api";
+  useFetch,
+  useContext,
+} from "@nuxtjs/composition-api";
 import { list } from "~/composable/useOrganizations";
 import { handleSelectedOrganization } from "~/composable/useNavigation";
 import { organizationStore } from "~/store";
@@ -37,11 +38,17 @@ import { IOrganization } from "~/types";
 
 export default defineComponent({
   name: "Navigation",
-  setup(_, context) {
+  setup() {
+    const {
+      route,
+      error,
+      app: { router, $axios },
+    } = useContext();
     const organizations: Ref<IOrganization[]> = ref([]);
-    const selectedOrganization = computed(
-      () => organizationStore.selectedOrganization,
-    );
+    const selectedOrganization = computed({
+      get: () => organizationStore.selectedOrganization,
+      set: (value) => value && organizationStore.setSelectedOrganization(value),
+    });
 
     const items = computed(() =>
       selectedOrganization.value
@@ -55,8 +62,8 @@ export default defineComponent({
         : [],
     );
 
-    withContext(async (context) => {
-      organizations.value = await list<IOrganization[]>(context);
+    useFetch(async () => {
+      organizations.value = await list($axios, error);
     });
 
     const onSelectOrganization = (id: string) => {
@@ -65,7 +72,9 @@ export default defineComponent({
       );
 
       organizationStore.setSelectedOrganization(organization);
-      handleSelectedOrganization(context);
+      if (router) {
+        handleSelectedOrganization(route, router);
+      }
     };
 
     return {

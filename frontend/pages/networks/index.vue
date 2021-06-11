@@ -32,32 +32,47 @@ import {
   Ref,
   computed,
   watch,
+  useContext,
+  useFetch,
   // onUnmounted,
-} from "nuxt-composition-api";
+} from "@nuxtjs/composition-api";
 import { summary } from "~/composable/useNetworks";
 import { organizationStore, networkStore } from "~/store";
 import { INetwork } from "~/types";
 
 export default defineComponent({
   name: "Networks",
-  setup(_, context) {
+  setup() {
+    const {
+      error,
+      app: { $axios, router },
+    } = useContext();
     const networks: Ref<INetwork[]> = ref([]);
     const selectedOrganization = computed(
       () => organizationStore.selectedOrganization,
     );
 
+    if (selectedOrganization.value) {
+      useFetch(async () => {
+        networks.value = await summary(
+          $axios,
+          error,
+          selectedOrganization.value!.id,
+        );
+      });
+    }
+
     watch(selectedOrganization, async (organization) => {
       if (organization) {
-        networks.value = await summary<INetwork[]>(
-          context.root.$nuxt,
-          organization.id,
-        );
+        networks.value = await summary($axios, error, organization.id);
       }
     });
 
     function onRowClicked(network: INetwork) {
       networkStore.setSelectedNetwork({ id: network.id, name: network.name });
-      context.root.$router.push(`/networks/${network.id}`);
+      if (router) {
+        router.push(`/networks/${network.id}`);
+      }
     }
 
     // onUnmounted(() => {

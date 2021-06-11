@@ -10,7 +10,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, withContext, ref } from "nuxt-composition-api";
+import {
+  defineComponent,
+  ref,
+  useContext,
+  useFetch,
+} from "@nuxtjs/composition-api";
 import { graphlib, render as Renderer } from "dagre-d3";
 import * as d3 from "d3";
 
@@ -20,17 +25,22 @@ import { organizationStore, networkStore } from "~/store";
 export default defineComponent({
   name: "NetworkTopology",
   setup() {
+    const {
+      error,
+      app: { $axios },
+    } = useContext();
     const loading = ref(true);
 
-    withContext(async (context) => {
+    useFetch(async () => {
       const data = await topology(
-        context,
+        $axios,
+        error,
         organizationStore.selectedOrganization!.id,
         networkStore.selectedNetwork!.id,
       );
       loading.value = false;
 
-      const graph = graphlib.json.read(data).setGraph({
+      const graph: graphlib.Graph = graphlib.json.read(data).setGraph({
         ranksep: 100,
         marginx: 20,
         marginy: 20,
@@ -84,13 +94,14 @@ export default defineComponent({
       const svg = d3.select(".svg-network-topology");
       const inner: any = svg.append("g");
 
-      const zoom = d3.zoom().on("zoom", () => {
-        inner.attr("transform", d3.event.transform);
+      const zoom = d3.zoom().on("zoom", (event: any) => {
+        inner.attr("transform", event.transform);
       });
 
       // @ts-ignore
       svg.call(zoom);
       const renderer = new Renderer();
+      // @ts-ignore
       renderer(inner, graph);
     });
 

@@ -1,6 +1,6 @@
 ### BUILD IMAGE
 
-FROM node:14.2.0-slim AS builder
+FROM node:14.16.0-slim AS builder
 
 RUN apt-get update && \
   apt-get -y install g++ build-essential python && \
@@ -22,7 +22,7 @@ RUN cd ./backend && yarn build
 
 ### RUNTIME IMAGE
 
-FROM node:14.2.0-slim
+FROM node:14.16.0-slim
 
 WORKDIR /app
 

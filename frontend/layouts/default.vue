@@ -17,11 +17,11 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>
-    <v-content>
-      <v-container>
+    <main>
+      <v-main>
         <nuxt />
-      </v-container>
-    </v-content>
+      </v-main>
+    </main>
     <v-footer :fixed="fixed" app>
       <span>zebbra AG &copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "nuxt-composition-api";
+import { defineComponent } from "@nuxtjs/composition-api";
 import ApplicationNavigation from "~/components/application/Navigation.vue";
 
 export default defineComponent({

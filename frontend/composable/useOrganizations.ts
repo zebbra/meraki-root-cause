@@ -1,28 +1,30 @@
-import { Context } from "@nuxt/types";
-import { NuxtApp } from "@nuxt/types/app";
+import { NuxtAxiosInstance } from "@nuxtjs/axios";
+import { Context } from "@nuxt/types/app";
 
-export async function summary<Data = unknown>(
-  context: Context | NuxtApp,
-): Promise<Data> {
+export async function summary(
+  $axios: NuxtAxiosInstance,
+  nuxtError: Context["error"],
+) {
   const url = "/organizations/summary";
 
   try {
-    return await context.$axios.$get(url);
-  } catch (error) {
-    context.error(error);
-    return <any>[];
+    return await $axios.$get(url);
+  } catch (err) {
+    nuxtError(err);
+    return [];
   }
 }
 
-export async function list<Data = unknown>(
-  context: Context | NuxtApp,
-): Promise<Data> {
+export async function list(
+  $axios: NuxtAxiosInstance,
+  nuxtError: Context["error"],
+) {
   const url = "/organizations";
 
   try {
-    return await context.$axios.$get(url);
-  } catch (error) {
-    context.error(error);
-    return <any>[];
+    return await $axios.$get(url);
+  } catch (err) {
+    nuxtError(err);
+    return [];
   }
 }
